@@ -5,10 +5,6 @@ Created on Sun Aug 18 13:17:38 2019
 @author: crila
 """
 import os
-# for keras the CUDA commands must come before importing the keras libraries
-os.environ['CUDA_DEVICE_ORDER'] = 'PCI_BUS_ID'
-os.environ['CUDA_VISIBLE_DEVICES'] = '0'
-os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
 
 import matplotlib.pyplot as plt 
 import numpy as np
@@ -41,23 +37,6 @@ def plotLearning(x, scores, epsilons, filename):
     ax2.tick_params(axis='y', colors="C1")
 
     plt.savefig(filename)
-
-import tensorflow as tf
-from keras import backend as K
-
-num_cores = 16
-num_GPU = 1
-num_CPU = 16
-
-config = tf.ConfigProto(intra_op_parallelism_threads=num_cores,
-                        inter_op_parallelism_threads=num_cores, 
-                        allow_soft_placement=True,
-                        device_count = {'CPU' : num_CPU,
-                                        'GPU' : num_GPU}
-                       )
-
-session = tf.Session(config=config)
-K.set_session(session) 
 
 from keras.layers import Dense, Activation
 from keras.models import Sequential, load_model
@@ -117,7 +96,7 @@ def build_dqn(lr, n_actions, input_dims, fc1_dims, fc2_dims):
 class DDQNAgent(object):
     def __init__(self, alpha, gamma, n_actions, epsilon, batch_size,
                  input_dims, epsilon_dec=0.996,  epsilon_end=0.01,
-                 mem_size=1000000, fname='ddqn_forex-b128-nn512_128-lr0_0005.h5', replace_target=100):
+                 mem_size=1000000, fname='ddqn_forex-b128-nn512_128-lr0_0005-eps_dec0_9996.h5', replace_target=100):
         self.action_space = [i for i in range(n_actions)]
         self.n_actions = n_actions
         self.gamma = gamma
@@ -194,31 +173,37 @@ import os
 import os.path
 from os import path
 
+def write_to_log(message):
+    with open("out-ddqn_forex-b128-nn512_128-lr0_0005-eps_dec0_9996.log", "a") as file:
+        time_to_print = datetime.now().strftime("%Y.%m %H:%M:%S")
+        file.write(f"{time_to_print} : {message}\n")
+        print(f"{time_to_print} : {message}")
+
 if __name__ == '__main__':
     os.chdir('./gym_forex1')
     cwd = os.getcwd()
-    print(f'Working path changed to {cwd}')
+    write_to_log(f'Working path changed to {cwd}')
     env = gym.make('forex1-v0')
-    print('---------------------------------------------')
-    print('Environment loaded successfuly')
-    ddqn_agent = DDQNAgent(alpha=0.0005, gamma=0.99, n_actions=4, epsilon=1.0,
-                  batch_size=128, input_dims=41)
+    os.chdir('./..')
+    write_to_log('---------------------------------------------')
+    write_to_log('Environment loaded successfuly')
+    ddqn_agent = DDQNAgent(alpha=0.0005, gamma=0.99, n_actions=4, epsilon=1.0, epsilon_dec=0.9996, batch_size=128, input_dims=41)
     n_games = 1000    
     ddqn_scores = []
     eps_history = []
     
     #os.chdir('..')
-    #source_load_file = 'gdrive/My Drive/RL_models/ddqn_forex-b128-nn512_128-lr0_0005.h5'
-    #dest_load_file = 'ddqn_forex-b128-nn512_128-lr0_0005.h5'
+    #source_load_file = 'gdrive/My Drive/RL_models/ddqn_model_forex1.h5'
+    #dest_load_file = 'ddqn_model_forex1.h5'
     #shutil.copy2(source_load_file, dest_load_file)
-    if path.exists("ddqn_forex-b128-nn512_128-lr0_0005.h5"):
+    if path.exists("ddqn_forex-b128-nn512_128-lr0_0005-eps_dec0_9996.h5"):
         ddqn_agent.load_model()
-        print('---------------------------------------------')
-        print('Previous learning model loaded')
+        write_to_log('---------------------------------------------')
+        write_to_log('Previous learning model loaded')
     #env = wrappers.Monitor(env, "tmp/lunar-lander-ddqn-2",
     #                         video_callable=lambda episode_id: True, force=True)
     time_to_print = datetime.now().strftime("%Y.%m.%d %H:%M:%S")
-    print(f'start training model: {time_to_print}')
+    write_to_log(f'start training model: {time_to_print}')
     
     for i in range(n_games):
         done = False
@@ -238,11 +223,11 @@ if __name__ == '__main__':
         avg_score = np.mean(ddqn_scores[max(0, i-100):(i+1)])
         time_to_print = datetime.now().strftime("%H:%M:%S")
 
-        print(f'episode: {i} score: {int(score)} average score {int(avg_score)} time {time_to_print} balance {int(info[0])} buy {info[1]}/{info[2]} sell {info[3]}/{info[4]} pips_won {int(info[7])} pips_lost {int(info[8])} eps {eps_history[len(eps_history)-1]}')
+        write_to_log(f'episode: {i} score: {int(score)} average score {int(avg_score)} time {time_to_print} balance {int(info[0])} buy {info[1]}/{info[2]} sell {info[3]}/{info[4]} pips_won {int(info[7])} pips_lost {int(info[8])} eps {eps_history[len(eps_history)-1]} avg_length {int(info[9])} min/max_length {int(info[10])}/{int(info[11])}')
 
         #if i % 2 == 0 and i > 0:
         ddqn_agent.save_model()
-        source_save_file = 'ddqn_forex-b128-nn512_128-lr0_0005.h5'
+        source_save_file = 'ddqn_forex-b128-nn512_128-lr0_0005-eps_dec0_9996.h5'
         #dest_save_file = 'ddqn_model_forex1_ep' + str(i) + '.h5'
         #shutil.copy2(source_save_file, dest_save_file)
 
