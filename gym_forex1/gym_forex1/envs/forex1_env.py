@@ -31,7 +31,7 @@ class Forex1(gym.Env):
         self.last_trade_length = 0
         self.pips_won = 0
         self.pips_lost = 0
-        self.avg_length = []
+        self.avg_length = [0]
 
         self.account_balance = INITIAL_ACCOUNT_BALANCE
         self.before_trade_acount_balance = self.account_balance
@@ -190,7 +190,7 @@ class Forex1(gym.Env):
             reward = self.trade_length / 5000
         
         # bonus for closing a positive trade
-         if self.close_profit > 350:
+        if self.close_profit > 350:
             reward = self.close_profit / 10 + self.last_trade_length / 50 + 6
             self.close_profit = 0                        
         elif self.close_profit > 240:
