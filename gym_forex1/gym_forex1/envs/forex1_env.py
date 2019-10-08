@@ -183,7 +183,7 @@ class Forex1(gym.Env):
             self.pips_lost += -self.close_profit
 
         info = [float(self.account_balance), self.profitable_buy, self.notprofitable_buy, self.profitable_sell,\
-            self.notprofitable_sell, self.trade_length, self.last_trade_length, self.pips_won, self.pips_lost, int(np.mean(self.avg_length)), np.min(self.avg_length), np.max(avg_length)]
+            self.notprofitable_sell, self.trade_length, self.last_trade_length, self.pips_won, self.pips_lost, int(np.mean(self.avg_length)), np.min(self.avg_length), np.max(self.avg_length)]
 
         # bonus positiv for having a positive trade and being in the trade longer
         if self.profit > 0 and self.trade_length > 30:
