@@ -1,6 +1,0 @@
-ps -ef | grep python
-
-nohup python -u ./Double\ DQN\ with\ Keras\ -\ forex1.py > out-DDQN-forex-b128-nn512_256-lr0_0005.log &
-nohup python -u ./Double\ DQN\ with\ Keras\ -\ forex2.py > out-DDQN-forex-b64-nn512_256-lr0_0005.log &
-nohup python -u ./Double\ DQN\ with\ Keras\ -\ forex3.py > out-DDQN-forex-b256-nn512_256-lr0_0005.log &
-nohup python -u ./Double\ DQN\ with\ Keras\ -\ forex4.py > out-DDQN-forex-b512-nn512_256-lr0_0005.log &

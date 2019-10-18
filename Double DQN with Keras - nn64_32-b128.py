@@ -96,7 +96,7 @@ def build_dqn(lr, n_actions, input_dims, fc1_dims, fc2_dims):
 class DDQNAgent(object):
     def __init__(self, alpha, gamma, n_actions, epsilon, batch_size,
                  input_dims, epsilon_dec=0.996,  epsilon_end=0.01,
-                 mem_size=1000000, fname='ddqn_forex-b128-nn512_128-lr0_0005-eps_dec0_9996.h5', replace_target=100):
+                 mem_size=1000000, fname='ddqn_forex-b128-nn64_32-lr0_0002.h5', replace_target=100):
         self.action_space = [i for i in range(n_actions)]
         self.n_actions = n_actions
         self.gamma = gamma
@@ -108,8 +108,8 @@ class DDQNAgent(object):
         self.replace_target = replace_target
         self.memory = ReplayBuffer(mem_size, input_dims, n_actions,
                                    discrete=True)
-        self.q_eval = build_dqn(alpha, n_actions, input_dims, 512, 256)
-        self.q_target = build_dqn(alpha, n_actions, input_dims, 512, 256)
+        self.q_eval = build_dqn(alpha, n_actions, input_dims, 64, 32)
+        self.q_target = build_dqn(alpha, n_actions, input_dims, 64, 32)
 
     def remember(self, state, action, reward, new_state, done):
         self.memory.store_transition(state, action, reward, new_state, done)
@@ -166,7 +166,7 @@ class DDQNAgent(object):
 import gym
 from gym import wrappers
 import numpy as np
-import gym_forex1
+from env.forex_env_v1 import Forex1 as ForexTrading
 from datetime import datetime
 import shutil
 import os
@@ -174,20 +174,16 @@ import os.path
 from os import path
 
 def write_to_log(message):
-    with open("out-ddqn_forex-b128-nn512_128-lr0_0005-eps_dec0_9996.log", "a") as file:
+    with open("out-ddqn_forex-b128-nn64_32-lr0_0002.log", "a") as file:
         time_to_print = datetime.now().strftime("%Y.%m %H:%M:%S")
         file.write(f"{time_to_print} : {message}\n")
         print(f"{time_to_print} : {message}")
 
 if __name__ == '__main__':
-    os.chdir('./gym_forex1')
-    cwd = os.getcwd()
-    write_to_log(f'Working path changed to {cwd}')
-    env = gym.make('forex1-v0')
-    os.chdir('./..')
+    env = ForexTrading()
     write_to_log('---------------------------------------------')
     write_to_log('Environment loaded successfuly')
-    ddqn_agent = DDQNAgent(alpha=0.0005, gamma=0.99, n_actions=4, epsilon=1.0, epsilon_dec=0.9996, batch_size=128, input_dims=41)
+    ddqn_agent = DDQNAgent(alpha=0.0002, gamma=0.99, n_actions=4, epsilon_dec=0.9996, epsilon=1.0, batch_size=128, input_dims=41)
     n_games = 1000    
     ddqn_scores = []
     eps_history = []
@@ -196,7 +192,7 @@ if __name__ == '__main__':
     #source_load_file = 'gdrive/My Drive/RL_models/ddqn_model_forex1.h5'
     #dest_load_file = 'ddqn_model_forex1.h5'
     #shutil.copy2(source_load_file, dest_load_file)
-    if path.exists("ddqn_forex-b128-nn512_128-lr0_0005-eps_dec0_9996.h5"):
+    if path.exists("ddqn_forex-b128-nn64_32-lr0_0002.h5"):
         ddqn_agent.load_model()
         write_to_log('---------------------------------------------')
         write_to_log('Previous learning model loaded')
@@ -223,11 +219,11 @@ if __name__ == '__main__':
         avg_score = np.mean(ddqn_scores[max(0, i-100):(i+1)])
         time_to_print = datetime.now().strftime("%H:%M:%S")
 
-        write_to_log(f'episode: {i} score: {int(score)} average score {int(avg_score)} time {time_to_print} balance {int(info[0])} buy {info[1]}/{info[2]} sell {info[3]}/{info[4]} pips_won {int(info[7])} pips_lost {int(info[8])} eps {eps_history[len(eps_history)-1]} avg_length {int(info[9])} min/max_length {int(info[10])}/{int(info[11])}')
+        print(f'episode: {i} score: {int(score)} average score {int(avg_score)} time {time_to_print} balance {int(info[0])} buy {info[1]}/{info[2]} sell {info[3]}/{info[4]} pips_won {int(info[7])} pips_lost {int(info[8])} eps {eps_history[len(eps_history)-1]} avg_length {int(info[9])} min/max_length {int(info[10])}/{int(info[11])}')
 
         #if i % 2 == 0 and i > 0:
         ddqn_agent.save_model()
-        source_save_file = 'ddqn_forex-b128-nn512_128-lr0_0005-eps_dec0_9996.h5'
+        source_save_file = 'ddqn_forex-b128-nn64_32-lr0_0002.h5'
         #dest_save_file = 'ddqn_model_forex1_ep' + str(i) + '.h5'
         #shutil.copy2(source_save_file, dest_save_file)
 

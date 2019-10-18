@@ -40,7 +40,7 @@ class Forex1(gym.Env):
         self.action_space = spaces.Discrete(4)
 
         # Prices contains the OHCL values for the last five prices
-        self.observation_space = spaces.Box(low=0, high=1, shape=(41, ), dtype=np.float32)
+        self.observation_space = spaces.Box(low=0, high=1, shape=(41, ), dtype=np.float16)
 
     def _get_current_step_data(self):
         # Get the stock data points for the last 5 days and scale to between 0-1
@@ -186,34 +186,34 @@ class Forex1(gym.Env):
             self.notprofitable_sell, self.trade_length, self.last_trade_length, self.pips_won, self.pips_lost, int(np.mean(self.avg_length)), np.min(self.avg_length), np.max(self.avg_length)]
 
         # bonus positiv for having a positive trade and being in the trade longer
-        if self.profit > 0 and self.trade_length > 30:
-            reward = self.trade_length / 5000
+        if self.profit > 0 and self.trade_length > 15:
+            reward = self.trade_length / 100
         
         # bonus for closing a positive trade
-        if self.close_profit > 350:
-            reward = self.close_profit / 10 + self.last_trade_length / 50 + 6
+        if self.close_profit > 120:
+            reward = self.close_profit + self.last_trade_length / 5 + 6
             self.close_profit = 0                        
-        elif self.close_profit > 240:
-            reward = self.close_profit / 20 + self.last_trade_length / 50 + 4
+        elif self.close_profit > 100:
+            reward = self.close_profit / 2 + self.last_trade_length / 10 + 4
             self.close_profit = 0          
-        elif self.close_profit > 120:
-            reward = self.close_profit / 30 + self.last_trade_length / 50 + 2
+        elif self.close_profit > 80:
+            reward = self.close_profit / 3 + self.last_trade_length / 20 + 2
             self.close_profit = 0
-        elif self.close_profit > 60:
-            reward = self.close_profit / 40 + self.last_trade_length / 50 + 1
+        elif self.close_profit > 40:
+            reward = self.close_profit / 4 + self.last_trade_length / 30 + 1
             self.close_profit = 0
         elif self.close_profit >= 5:
-            if self.last_trade_length < 30:
-                reward = self.close_profit / 60
-            if self.last_trade_length > 30:
-                reward = self.close_profit / 50
+            if self.last_trade_length < 15:
+                reward = self.close_profit / 10
+            if self.last_trade_length > 15:
+                reward = self.close_profit / 7
             self.close_profit = 0
         elif self.close_profit > 0:
-            reward = 0
+            reward = self.close_profit / 20
             self.close_profit = 0
 
         if self.close_profit < 0:
-            reward = self.close_profit - 5
+            reward = 2 * self.close_profit - 5
             self.close_profit = 0
 
         return obs, reward, done, info
@@ -232,7 +232,7 @@ class Forex1(gym.Env):
         self.notprofitable_sell = 0
         self.pips_won = 0
         self.pips_lost = 0
-        self.avg_length = []
+        self.avg_length = [0]
 
         # Set the current step to a random point within the data frame
         self.current_step = 0
