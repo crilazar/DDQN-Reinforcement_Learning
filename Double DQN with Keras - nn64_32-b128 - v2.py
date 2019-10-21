@@ -219,7 +219,7 @@ if __name__ == '__main__':
         avg_score = np.mean(ddqn_scores[max(0, i-100):(i+1)])
         time_to_print = datetime.now().strftime("%H:%M:%S")
 
-        print(f'episode: {i} score: {int(score)} average score {int(avg_score)} time {time_to_print} balance {int(info[0])} buy {info[1]}/{info[2]} sell {info[3]}/{info[4]} pips_won {int(info[7])} pips_lost {int(info[8])} eps {eps_history[len(eps_history)-1]} avg_length {int(info[9])} min/max_length {int(info[10])}/{int(info[11])}')
+        write_to_log(f'episode: {i} score: {int(score)} average score {int(avg_score)} time {time_to_print} balance {int(info[0])} buy {info[1]}/{info[2]} sell {info[3]}/{info[4]} pips_won {int(info[7])} pips_lost {int(info[8])} eps {eps_history[len(eps_history)-1]} avg_length {int(info[9])} min/max_length {int(info[10])}/{int(info[11])}')
 
         #if i % 2 == 0 and i > 0:
         ddqn_agent.save_model()
