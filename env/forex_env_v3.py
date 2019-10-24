@@ -207,10 +207,10 @@ class Forex1(gym.Env):
                 reward = self.close_profit / 10
             self.close_profit = 0
         elif self.close_profit > 0:
-            reward = self.close_profit / 50
+            reward = self.close_profit / 100
             self.close_profit = 0
 
-        if self.close_profit < 0:
+        if self.close_profit <= 0:
             reward = 2 * self.close_profit - 50
             self.close_profit = 0
 
