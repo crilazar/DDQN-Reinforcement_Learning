@@ -190,31 +190,31 @@ class Forex1(gym.Env):
             reward = self.trade_length / 100
         
         # bonus for closing a positive trade
-        if self.close_profit > 120:
-            reward = self.close_profit + self.last_trade_length / 5 + 6
-            self.close_profit = 0                        
-        elif self.close_profit > 100:
-            reward = self.close_profit / 2 + self.last_trade_length / 10 + 4
-            self.close_profit = 0          
-        elif self.close_profit > 80:
-            reward = self.close_profit / 3 + self.last_trade_length / 20 + 2
-            self.close_profit = 0
-        elif self.close_profit > 40:
-            reward = self.close_profit / 4 + self.last_trade_length / 30 + 1
-            self.close_profit = 0
-        elif self.close_profit >= 5:
-            if self.last_trade_length < 15:
-                reward = self.close_profit / 10
-            if self.last_trade_length > 15:
-                reward = self.close_profit / 7
-            self.close_profit = 0
-        elif self.close_profit > 0:
-            reward = self.close_profit / 20
-            self.close_profit = 0
-
-        if self.close_profit < 0:
-            reward = 2 * self.close_profit - 5
-            self.close_profit = 0
+        if self.active_trade == 0:
+            if self.close_profit > 120:
+                reward = self.close_profit + self.last_trade_length / 5 + 6
+                self.close_profit = 0                        
+            elif self.close_profit > 100:
+                reward = self.close_profit / 2 + self.last_trade_length / 10 + 4
+                self.close_profit = 0          
+            elif self.close_profit > 80:
+                reward = self.close_profit / 3 + self.last_trade_length / 20 + 2
+                self.close_profit = 0
+            elif self.close_profit > 40:
+                reward = self.close_profit / 4 + self.last_trade_length / 30 + 1
+                self.close_profit = 0
+            elif self.close_profit >= 5:
+                if self.last_trade_length < 15:
+                    reward = self.close_profit / 10
+                if self.last_trade_length > 15:
+                    reward = self.close_profit / 7
+                self.close_profit = 0
+            elif self.close_profit > 2:
+                reward = self.close_profit / 20
+                self.close_profit = 0
+            else:
+                reward = 2 * self.close_profit - 5
+                self.close_profit = 0
 
         return obs, reward, done, info
 
