@@ -179,7 +179,7 @@ class Forex1(gym.Env):
 
         if self.close_profit > 4:
             self.pips_won += self.close_profit
-        elif self.close_profit < 0:
+        else:
             self.pips_lost += -self.close_profit
 
         info = [float(self.account_balance), self.profitable_buy, self.notprofitable_buy, self.profitable_sell,\
@@ -203,17 +203,17 @@ class Forex1(gym.Env):
             elif self.close_profit > 40:
                 reward = self.close_profit / 4 + self.last_trade_length / 30 + 1
                 self.close_profit = 0
-            elif self.close_profit >= 5:
+            elif self.close_profit >= 10:
                 if self.last_trade_length < 15:
-                    reward = self.close_profit / 10
+                    reward = self.close_profit / 20
                 if self.last_trade_length > 15:
-                    reward = self.close_profit / 7
+                    reward = self.close_profit / 8
                 self.close_profit = 0
-            elif self.close_profit > 2:
-                reward = self.close_profit / 20
+            elif self.close_profit > 4:
+                reward = self.close_profit / 50
                 self.close_profit = 0
             else:
-                reward = 2 * self.close_profit - 5
+                reward = self.close_profit - 5
                 self.close_profit = 0
 
         return obs, reward, done, info
