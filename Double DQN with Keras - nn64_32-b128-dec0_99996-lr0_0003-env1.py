@@ -38,9 +38,22 @@ def plotLearning(x, scores, epsilons, filename):
 
     plt.savefig(filename)
 
-from keras.layers import Dense, Activation
-from keras.models import Sequential, load_model
-from keras.optimizers import Adam
+import tensorflow as tf
+import keras as K
+
+num_cores = 8
+num_GPU = 0
+num_CPU = 8
+
+config = tf.ConfigProto(intra_op_parallelism_threads=num_cores,
+                        inter_op_parallelism_threads=num_cores, 
+                        allow_soft_placement=True,
+                        device_count = {'CPU' : num_CPU,
+                                        'GPU' : num_GPU}
+                       )
+
+session = tf.Session(config=config)
+K.backend.set_session(session) 
 
 class ReplayBuffer(object):
     def __init__(self, max_size, input_shape, n_actions, discrete=False):
@@ -82,14 +95,14 @@ class ReplayBuffer(object):
         return states, actions, rewards, states_, terminal
 
 def build_dqn(lr, n_actions, input_dims, fc1_dims, fc2_dims):
-    model = Sequential([
-                Dense(fc1_dims, input_shape=(input_dims,)),
-                Activation('relu'),
-                Dense(fc2_dims),
-                Activation('relu'),
-                Dense(n_actions)])
+    model = K.models.Sequential([
+                K.layers.Dense(fc1_dims, input_shape=(input_dims,)),
+                K.layers.Activation('relu'),
+                K.layers.Dense(fc2_dims),
+                K.layers.Activation('relu'),
+                K.layers.Dense(n_actions)])
 
-    model.compile(optimizer=Adam(lr=lr), loss='mse')
+    model.compile(optimizer=K.optimizers.Adam(lr=lr), loss='mse')
 
     return model
 
@@ -157,7 +170,7 @@ class DDQNAgent(object):
         self.q_eval.save(self.model_file)
 
     def load_model(self):
-        self.q_eval = load_model(self.model_file)
+        self.q_eval = K.models.load_model(self.model_file)
         # if we are in evaluation mode we want to use the best weights for
         # q_target
         if self.epsilon == 0.0:

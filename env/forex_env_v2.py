@@ -174,7 +174,7 @@ class Forex1(gym.Env):
 
         if self.close_profit > 4:
             self.pips_won += self.close_profit
-        elif self.close_profit < 0:
+        else:
             self.pips_lost += -self.close_profit
 
         info = [float(self.account_balance), self.profitable_buy, self.notprofitable_buy, self.profitable_sell,\
