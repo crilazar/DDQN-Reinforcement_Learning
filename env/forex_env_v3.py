@@ -172,9 +172,9 @@ class Forex1(gym.Env):
         
         obs = self._get_current_step_data()
 
-        if self.close_profit > 5:
+        if self.close_profit > 4:
             self.pips_won += self.close_profit
-        else:
+        elif self.close_profit < 0:
             self.pips_lost += -self.close_profit
 
         info = [float(self.account_balance), self.profitable_buy, self.notprofitable_buy, self.profitable_sell,\
@@ -211,7 +211,7 @@ class Forex1(gym.Env):
                 reward = self.close_profit / 50
                 self.close_profit = 0
             else:
-                reward = self.close_profit - 5
+                reward = 2 * self.close_profit - 50
                 self.close_profit = 0
 
         return obs, reward, done, info

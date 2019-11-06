@@ -38,22 +38,9 @@ def plotLearning(x, scores, epsilons, filename):
 
     plt.savefig(filename)
 
-import tensorflow as tf
-import keras as K
-
-num_cores = 8
-num_GPU = 0
-num_CPU = 8
-
-config = tf.ConfigProto(intra_op_parallelism_threads=num_cores,
-                        inter_op_parallelism_threads=num_cores, 
-                        allow_soft_placement=True,
-                        device_count = {'CPU' : num_CPU,
-                                        'GPU' : num_GPU}
-                       )
-
-session = tf.Session(config=config)
-K.backend.set_session(session) 
+from keras.layers import Dense, Activation
+from keras.models import Sequential, load_model
+from keras.optimizers import Adam
 
 class ReplayBuffer(object):
     def __init__(self, max_size, input_shape, n_actions, discrete=False):
@@ -95,21 +82,21 @@ class ReplayBuffer(object):
         return states, actions, rewards, states_, terminal
 
 def build_dqn(lr, n_actions, input_dims, fc1_dims, fc2_dims):
-    model = K.models.Sequential([
-                K.layers.Dense(fc1_dims, input_shape=(input_dims,)),
-                K.layers.Activation('relu'),
-                K.layers.Dense(fc2_dims),
-                K.layers.Activation('relu'),
-                K.layers.Dense(n_actions)])
+    model = Sequential([
+                Dense(fc1_dims, input_shape=(input_dims,)),
+                Activation('relu'),
+                Dense(fc2_dims),
+                Activation('relu'),
+                Dense(n_actions)])
 
-    model.compile(optimizer=K.optimizers.Adam(lr=lr), loss='mse')
+    model.compile(optimizer=Adam(lr=lr, beta_1=0.9, beta_2=0.999, decay=0.0001, amsgrad=False), loss='mse')
 
     return model
 
 class DDQNAgent(object):
     def __init__(self, alpha, gamma, n_actions, epsilon, batch_size,
                  input_dims, epsilon_dec=0.996,  epsilon_end=0.01,
-                 mem_size=1000000, fname='ddqn_forex-b128-nn64_32-lr0_0003-env1.h5', replace_target=100):
+                 mem_size=1000000, fname='ddqn_forex-b128-nn64_32-lr0_0004-env1.h5', replace_target=100):
         self.action_space = [i for i in range(n_actions)]
         self.n_actions = n_actions
         self.gamma = gamma
@@ -170,11 +157,11 @@ class DDQNAgent(object):
         self.q_eval.save(self.model_file)
 
     def load_model(self):
-        self.q_eval = K.models.load_model(self.model_file)
+        self.q_eval = load_model(self.model_file)
         # if we are in evaluation mode we want to use the best weights for
         # q_target
-        if self.epsilon == 0.0:
-            self.update_network_parameters()
+        #if self.epsilon == 0.0:
+        self.update_network_parameters()
 
 import gym
 from gym import wrappers
@@ -187,7 +174,7 @@ import os.path
 from os import path
 
 def write_to_log(message):
-    with open("out-ddqn_forex-b128-nn64_32-lr0_0003-env1.log", "a") as file:
+    with open("out-ddqn_forex-b128-nn64_32-lr0_0004-env1.log", "a") as file:
         time_to_print = datetime.now().strftime("%Y.%m %H:%M:%S")
         file.write(f"{time_to_print} : {message}\n")
         print(f"{time_to_print} : {message}")
@@ -196,7 +183,7 @@ if __name__ == '__main__':
     env = ForexTrading()
     write_to_log('---------------------------------------------')
     write_to_log('Environment loaded successfuly')
-    ddqn_agent = DDQNAgent(alpha=0.0003, gamma=0.99, n_actions=4, epsilon_dec=0.99996, epsilon=1.0, batch_size=128, input_dims=41)
+    ddqn_agent = DDQNAgent(alpha=0.0004, gamma=0.99, n_actions=4, epsilon_dec=0.99996, epsilon=1.0, batch_size=128, input_dims=41)
     n_games = 1000    
     ddqn_scores = []
     eps_history = []
@@ -205,7 +192,7 @@ if __name__ == '__main__':
     #source_load_file = 'gdrive/My Drive/RL_models/ddqn_model_forex1.h5'
     #dest_load_file = 'ddqn_model_forex1.h5'
     #shutil.copy2(source_load_file, dest_load_file)
-    if path.exists("ddqn_forex-b128-nn64_32-lr0_0003-env1.h5"):
+    if path.exists("ddqn_forex-b128-nn64_32-lr0_0004-env1.h5"):
         ddqn_agent.load_model()
         write_to_log('---------------------------------------------')
         write_to_log('Previous learning model loaded')
@@ -236,7 +223,7 @@ if __name__ == '__main__':
 
         #if i % 2 == 0 and i > 0:
         ddqn_agent.save_model()
-        source_save_file = 'ddqn_forex-b128-nn64_32-lr0_0003-env1.h5'
+        source_save_file = 'ddqn_forex-b128-nn64_32-lr0_0004-env1.h5'
         #dest_save_file = 'ddqn_model_forex1_ep' + str(i) + '.h5'
         #shutil.copy2(source_save_file, dest_save_file)
 
