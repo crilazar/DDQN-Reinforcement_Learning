@@ -14,3 +14,9 @@
 2019.11 18:34:44 : ---------------------------------------------
 2019.11 18:34:44 : Previous learning model loaded
 2019.11 18:34:44 : start training model: 2019.11.18 18:34:44
+2019.11 19:04:07 : episode: 0 score: -27509 average score -27509 time 19:04:07 balance 5848 buy 396/11267 sell 822/12446 pips_won 12669 pips_lost 11820 eps 0.01 avg_length 8 min/max_length 0/1825
+2019.11 19:23:05 : episode: 1 score: 16667 average score -5421 time 19:23:05 balance 5344 buy 194/3693 sell 269/3743 pips_won 7791 pips_lost 7446 eps 0.01 avg_length 26 min/max_length 0/1582
+2019.11 19:40:41 : episode: 2 score: 17431 average score 2196 time 19:40:41 balance 4402 buy 184/1369 sell 233/1381 pips_won 7434 pips_lost 8032 eps 0.01 avg_length 66 min/max_length 0/1379
+2019.11 19:58:18 : episode: 3 score: 18067 average score 6164 time 19:58:18 balance 4985 buy 185/554 sell 249/617 pips_won 8180 pips_lost 8194 eps 0.01 avg_length 131 min/max_length 0/1229
+2019.11 20:15:59 : episode: 4 score: 20593 average score 9050 time 20:15:59 balance 4956 buy 182/491 sell 206/523 pips_won 7524 pips_lost 7568 eps 0.01 avg_length 150 min/max_length 0/1156
+2019.11 20:33:09 : episode: 5 score: 24709 average score 11660 time 20:33:09 balance 4082 buy 200/498 sell 173/329 pips_won 7127 pips_lost 8045 eps 0.01 avg_length 176 min/max_length 0/1492

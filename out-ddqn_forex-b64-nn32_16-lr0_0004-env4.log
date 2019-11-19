@@ -1,0 +1,46 @@
+2019.11 20:47:50 : ---------------------------------------------
+2019.11 20:47:50 : Environment loaded successfuly
+2019.11 20:47:50 : start training model: 2019.11.18 20:47:50
+2019.11 20:48:33 : ---------------------------------------------
+2019.11 20:48:33 : Environment loaded successfuly
+2019.11 20:48:33 : ---------------------------------------------
+2019.11 20:48:33 : Previous learning model loaded
+2019.11 20:48:33 : start training model: 2019.11.18 20:48:33
+2019.11 21:13:04 : episode: 0 score: -37441 average score -37441 time 21:13:04 balance 5576 buy 401/7436 sell 794/8288 pips_won 12946 pips_lost 12370 eps 0.01 avg_length 12 min/max_length 0/1421
+2019.11 21:31:33 : episode: 1 score: -1555 average score -19498 time 21:31:33 balance 5565 buy 171/2600 sell 331/2773 pips_won 8402 pips_lost 7836 eps 0.01 avg_length 36 min/max_length 0/1491
+2019.11 21:49:21 : episode: 2 score: 135 average score -12953 time 21:49:21 balance 5151 buy 125/1646 sell 319/1837 pips_won 7394 pips_lost 7243 eps 0.01 avg_length 53 min/max_length 0/1711
+2019.11 22:06:15 : episode: 3 score: -782 average score -9910 time 22:06:15 balance 4534 buy 94/924 sell 305/1111 pips_won 7438 pips_lost 7904 eps 0.01 avg_length 87 min/max_length 0/1606
+2019.11 22:23:10 : episode: 4 score: 12 average score -7926 time 22:23:10 balance 4899 buy 116/641 sell 319/813 pips_won 7801 pips_lost 7902 eps 0.01 avg_length 112 min/max_length 0/1395
+2019.11 22:40:02 : episode: 5 score: -827 average score -6742 time 22:40:02 balance 5636 buy 83/583 sell 340/721 pips_won 7985 pips_lost 7348 eps 0.01 avg_length 122 min/max_length 0/1629
+2019.11 22:56:46 : episode: 6 score: 1443 average score -5573 time 22:56:46 balance 5548 buy 79/450 sell 320/594 pips_won 7274 pips_lost 6726 eps 0.01 avg_length 146 min/max_length 0/1688
+2019.11 23:13:32 : episode: 7 score: 889 average score -4765 time 23:13:32 balance 5279 buy 79/513 sell 328/638 pips_won 7775 pips_lost 7496 eps 0.01 avg_length 135 min/max_length 0/1351
+2019.11 23:30:16 : episode: 8 score: 115 average score -4223 time 23:30:16 balance 5596 buy 78/461 sell 366/655 pips_won 8081 pips_lost 7484 eps 0.01 avg_length 135 min/max_length 0/1190
+2019.11 23:47:02 : episode: 9 score: 339 average score -3766 time 23:47:02 balance 5879 buy 75/472 sell 344/657 pips_won 7950 pips_lost 7070 eps 0.01 avg_length 136 min/max_length 0/1868
+2019.11 00:03:47 : episode: 10 score: 290 average score -3398 time 00:03:47 balance 5813 buy 57/491 sell 334/675 pips_won 7582 pips_lost 6768 eps 0.01 avg_length 135 min/max_length 0/1266
+2019.11 00:20:36 : episode: 11 score: 226 average score -3096 time 00:20:36 balance 5206 buy 71/501 sell 322/688 pips_won 7605 pips_lost 7399 eps 0.01 avg_length 133 min/max_length 0/1648
+2019.11 00:37:23 : episode: 12 score: -15 average score -2859 time 00:37:23 balance 5287 buy 80/492 sell 307/618 pips_won 7443 pips_lost 7155 eps 0.01 avg_length 141 min/max_length 0/1402
+2019.11 00:54:09 : episode: 13 score: -143 average score -2665 time 00:54:09 balance 5042 buy 87/524 sell 311/699 pips_won 7835 pips_lost 7792 eps 0.01 avg_length 130 min/max_length 0/1151
+2019.11 01:10:58 : episode: 14 score: -332 average score -2509 time 01:10:58 balance 4823 buy 100/555 sell 318/714 pips_won 7447 pips_lost 7623 eps 0.01 avg_length 125 min/max_length 0/1539
+2019.11 01:27:51 : episode: 15 score: 459 average score -2324 time 01:27:51 balance 5265 buy 115/522 sell 293/693 pips_won 7675 pips_lost 7409 eps 0.01 avg_length 130 min/max_length 0/1398
+2019.11 01:44:33 : episode: 16 score: 874 average score -2135 time 01:44:33 balance 4295 buy 109/521 sell 276/649 pips_won 7294 pips_lost 7998 eps 0.01 avg_length 136 min/max_length 0/1605
+2019.11 02:01:17 : episode: 17 score: 666 average score -1980 time 02:01:17 balance 4613 buy 121/542 sell 274/684 pips_won 7311 pips_lost 7697 eps 0.01 avg_length 130 min/max_length 0/1244
+2019.11 02:18:09 : episode: 18 score: 269 average score -1861 time 02:18:09 balance 5218 buy 127/619 sell 283/766 pips_won 8175 pips_lost 7956 eps 0.01 avg_length 117 min/max_length 0/1353
+2019.11 02:34:51 : episode: 19 score: 262 average score -1755 time 02:34:51 balance 4945 buy 133/620 sell 299/781 pips_won 8044 pips_lost 8098 eps 0.01 avg_length 115 min/max_length 0/2940
+2019.11 02:51:39 : episode: 20 score: 1874 average score -1582 time 02:51:39 balance 5241 buy 151/577 sell 261/714 pips_won 7753 pips_lost 7512 eps 0.01 avg_length 124 min/max_length 0/1354
+2019.11 03:08:16 : episode: 21 score: 1920 average score -1423 time 03:08:16 balance 5063 buy 162/569 sell 262/735 pips_won 7841 pips_lost 7778 eps 0.01 avg_length 122 min/max_length 0/1932
+2019.11 03:25:06 : episode: 22 score: 499 average score -1339 time 03:25:06 balance 4869 buy 154/605 sell 250/822 pips_won 7659 pips_lost 7789 eps 0.01 avg_length 115 min/max_length 0/1901
+2019.11 03:42:04 : episode: 23 score: 1368 average score -1227 time 03:42:04 balance 5204 buy 188/642 sell 263/815 pips_won 8045 pips_lost 7841 eps 0.01 avg_length 110 min/max_length 0/1218
+2019.11 03:58:47 : episode: 24 score: 1292 average score -1126 time 03:58:47 balance 5137 buy 164/598 sell 245/743 pips_won 7908 pips_lost 7771 eps 0.01 avg_length 120 min/max_length 0/1350
+2019.11 04:15:13 : episode: 25 score: 486 average score -1064 time 04:15:13 balance 5823 buy 215/606 sell 232/883 pips_won 8289 pips_lost 7466 eps 0.01 avg_length 109 min/max_length 0/1129
+2019.11 04:31:54 : episode: 26 score: 1589 average score -965 time 04:31:54 balance 5900 buy 218/629 sell 207/819 pips_won 8360 pips_lost 7459 eps 0.01 avg_length 113 min/max_length 0/1452
+2019.11 04:48:40 : episode: 27 score: 2892 average score -828 time 04:48:40 balance 7219 buy 230/662 sell 201/820 pips_won 8829 pips_lost 6609 eps 0.01 avg_length 110 min/max_length 0/1279
+2019.11 05:05:32 : episode: 28 score: 1357 average score -752 time 05:05:32 balance 5836 buy 239/684 sell 193/855 pips_won 8380 pips_lost 7543 eps 0.01 avg_length 107 min/max_length 0/1769
+2019.11 05:22:28 : episode: 29 score: 2017 average score -660 time 05:22:28 balance 6209 buy 257/688 sell 199/859 pips_won 8688 pips_lost 7479 eps 0.01 avg_length 105 min/max_length 0/1415
+2019.11 05:39:22 : episode: 30 score: 453 average score -624 time 05:39:22 balance 4959 buy 252/728 sell 164/943 pips_won 8182 pips_lost 8223 eps 0.01 avg_length 101 min/max_length 0/1608
+2019.11 05:56:18 : episode: 31 score: 1768 average score -549 time 05:56:18 balance 6808 buy 256/716 sell 172/934 pips_won 9004 pips_lost 7195 eps 0.01 avg_length 101 min/max_length 0/1369
+2019.11 06:13:18 : episode: 32 score: 1207 average score -496 time 06:13:18 balance 6746 buy 281/732 sell 174/1026 pips_won 9087 pips_lost 7341 eps 0.01 avg_length 95 min/max_length 0/1429
+2019.11 06:30:15 : episode: 33 score: 1494 average score -437 time 06:30:15 balance 7236 buy 292/728 sell 168/1131 pips_won 9214 pips_lost 6978 eps 0.01 avg_length 91 min/max_length 0/1705
+2019.11 06:47:09 : episode: 34 score: 491 average score -411 time 06:47:09 balance 5974 buy 261/827 sell 183/1210 pips_won 8152 pips_lost 7178 eps 0.01 avg_length 85 min/max_length 0/1197
+2019.11 07:04:41 : episode: 35 score: 606 average score -383 time 07:04:41 balance 5908 buy 276/978 sell 181/1307 pips_won 8866 pips_lost 7957 eps 0.01 avg_length 77 min/max_length 0/2028
+2019.11 07:22:12 : episode: 36 score: 489 average score -359 time 07:22:12 balance 6274 buy 247/1175 sell 199/1464 pips_won 8804 pips_lost 7530 eps 0.01 avg_length 68 min/max_length 0/2017
+2019.11 07:41:57 : episode: 37 score: 946 average score -325 time 07:41:57 balance 5631 buy 270/1448 sell 166/1747 pips_won 8469 pips_lost 7837 eps 0.01 avg_length 58 min/max_length 0/1363
