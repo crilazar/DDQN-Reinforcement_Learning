@@ -40,7 +40,7 @@ class Forex1(gym.Env):
         self.action_space = spaces.Discrete(4)
 
         # Prices contains the OHCL values for the last five prices
-        self.observation_space = spaces.Box(low=0, high=1, shape=(1,41), dtype=np.float16)
+        self.observation_space = spaces.Box(low=0, high=1, shape=(41,), dtype=np.float16)
 
     def _get_current_step_data(self):
         # Get the stock data points for the last 5 days and scale to between 0-1
@@ -53,6 +53,7 @@ class Forex1(gym.Env):
                     float(self.profit)
                 ]])
         obs = self._normalize_data(output_data)
+        obs = obs.reshape(41,)
         return obs
 
     def _normalize_data(self, input_data):
@@ -190,13 +191,13 @@ class Forex1(gym.Env):
         # bonus for closing a positive trade
         if self.active_trade == 0:
             if self.close_profit > 100:
-                reward = self.close_profit + 10
+                reward = self.close_profit + 10 + self.last_trade_length / 2
             elif self.close_profit > 80:
-                reward = self.close_profit
+                reward = self.close_profit + self.last_trade_length / 3
             elif self.close_profit > 60:
-                reward = self.close_profit / 2
+                reward = self.close_profit / 2 + self.last_trade_length / 5
             elif self.close_profit > 30:
-                reward = self.close_profit / 5
+                reward = self.close_profit / 5 + self.last_trade_length / 10
             elif self.close_profit > 10:
                 if self.last_trade_length < 25:
                     reward = self.close_profit / 50

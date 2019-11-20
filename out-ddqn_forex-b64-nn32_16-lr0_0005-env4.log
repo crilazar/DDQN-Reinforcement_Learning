@@ -1,0 +1,14 @@
+2019.11 09:21:52 : ---------------------------------------------
+2019.11 09:21:52 : Environment loaded successfuly
+2019.11 09:21:53 : ---------------------------------------------
+2019.11 09:21:53 : Previous learning model loaded
+2019.11 09:21:53 : start training model: 2019.11.20 09:21:53
+2019.11 09:44:44 : ---------------------------------------------
+2019.11 09:44:44 : Environment loaded successfuly
+2019.11 09:44:45 : ---------------------------------------------
+2019.11 09:44:45 : Previous learning model loaded
+2019.11 09:44:45 : start training model: 2019.11.20 09:44:45
+2019.11 10:13:30 : episode: 0 score: -35087 average score -35087 time 10:13:30 balance 5821 buy 537/7225 sell 673/7603 pips_won 13444 pips_lost 12622 eps 0.01 avg_length 12 min/max_length 0/1935
+2019.11 10:48:39 : episode: 1 score: 1778 average score -16654 time 10:48:39 balance 5470 buy 262/746 sell 138/662 pips_won 8138 pips_lost 7667 eps 0.01 avg_length 117 min/max_length 0/1433
+2019.11 11:29:03 : episode: 2 score: 3246 average score -10020 time 11:29:03 balance 5608 buy 251/695 sell 150/581 pips_won 8237 pips_lost 7628 eps 0.01 avg_length 126 min/max_length 0/1834
+2019.11 11:46:38 : episode: 3 score: 2375 average score -6921 time 11:46:38 balance 5328 buy 248/720 sell 151/661 pips_won 7816 pips_lost 7487 eps 0.01 avg_length 118 min/max_length 0/1905

@@ -37,15 +37,16 @@ class Forex1(gym.Env):
         self.before_trade_acount_balance = self.account_balance
 
         # Actions of the format hold, Buy, Sell, close
-        self.action_space = spaces.Discrete(3)
+        self.action_space = spaces.Discrete(4)
 
         # Prices contains the OHCL values for the last five prices
-        self.observation_space = spaces.Box(low=0, high=1, shape=(41, ), dtype=np.float16)
+        self.observation_space = spaces.Box(low=0, high=1, shape=(1,41), dtype=np.float16)
 
     def _get_current_step_data(self):
         # Get the stock data points for the last 5 days and scale to between 0-1
         data_current_step = self.df[self.current_step]
         self.CurrentMarketLevel = data_current_step[30]
+        self._calculate_profit()
         output_data = np.append(data_current_step, [[
                     self.active_trade,
                     self.trade_length,
@@ -103,18 +104,22 @@ class Forex1(gym.Env):
 
     def _close_trade(self):
         self.close_profit = self.profit
-        self.account_balance = self.before_trade_acount_balance + self.profit
+        self.account_balance = self.before_trade_acount_balance + self.close_profit
 
         if self.active_trade == 1:
             if self.close_profit > 0:
                 self.profitable_buy += 1
+                self.pips_won += self.close_profit
             else:
                 self.notprofitable_buy += 1
+                self.pips_lost -= self.close_profit
         if self.active_trade == 2:
             if self.close_profit > 0:
                 self.profitable_sell += 1
+                self.pips_won += self.close_profit
             else:
                 self.notprofitable_sell += 1
+                self.pips_lost -= self.close_profit
 
         self.avg_length.append(self.trade_length)
         self.profit = 0
@@ -147,7 +152,12 @@ class Forex1(gym.Env):
             self.trade_open_price = self.CurrentMarketLevel
             self.before_trade_acount_balance = self.account_balance
             self.profit = 0
-                   
+
+        if action_type == 3 and self.active_trade != 0:      # Close trade action
+            self._close_trade()
+            
+        #print(f'action_type = {action} and active_trade = {self.active_trade}')
+        
     def _calculate_profit(self):
         
         if self.active_trade != 0:               # calculate profit only if any active trade
@@ -155,7 +165,7 @@ class Forex1(gym.Env):
                 self.profit = (self.trade_open_price - self.CurrentMarketLevel) * 10000
             if self.active_trade == 1:
                 self.profit = (self.CurrentMarketLevel - self.trade_open_price) * 10000
-            self.account_balance = self.before_trade_acount_balance  + self.profit
+            #self.account_balance = self.before_trade_acount_balance  + self.profit
         
         if float(self.profit) < -100:              # close active trade if profit less than -100
             self._close_trade()
@@ -163,7 +173,6 @@ class Forex1(gym.Env):
     def step(self, action):
         # Execute one time step within the environment
         self._take_action(action)
-        self._calculate_profit()
 
         self.current_step += 1
         reward = 0
@@ -172,44 +181,50 @@ class Forex1(gym.Env):
         
         obs = self._get_current_step_data()
 
-        if self.close_profit > 4:
-            self.pips_won += self.close_profit
-        elif self.close_profit < 0:
-            self.pips_lost += -self.close_profit
-
         info = [float(self.account_balance), self.profitable_buy, self.notprofitable_buy, self.profitable_sell,\
             self.notprofitable_sell, self.trade_length, self.last_trade_length, self.pips_won, self.pips_lost, int(np.mean(self.avg_length)), np.min(self.avg_length), np.max(self.avg_length)]
 
         # bonus positiv for having a positive trade and being in the trade longer
-        if self.profit > 0 and self.trade_length > 15:
-            reward = self.trade_length / 100
+        #if self.profit > 0 and self.trade_length > 15:
+        #    reward = self.trade_length / 200
         
         # bonus for closing a positive trade
         if self.active_trade == 0:
             if self.close_profit > 120:
-                reward = self.close_profit + self.last_trade_length / 5 + 6
-                self.close_profit = 0                        
+                if self.last_trade_length>30:
+                    reward = self.close_profit + self.last_trade_length / 5 + 6
+                else:
+                    reward = self.close_profit / 5
             elif self.close_profit > 100:
-                reward = self.close_profit / 2 + self.last_trade_length / 10 + 4
-                self.close_profit = 0          
+                if self.last_trade_length>30:
+                    reward = self.close_profit / 2 + self.last_trade_length / 10 + 4
+                else:
+                    reward = self.close_profit / 5                    
             elif self.close_profit > 80:
-                reward = self.close_profit / 3 + self.last_trade_length / 20 + 2
-                self.close_profit = 0
-            elif self.close_profit > 40:
-                reward = self.close_profit / 4 + self.last_trade_length / 30 + 1
-                self.close_profit = 0
-            elif self.close_profit >= 5:
-                if self.last_trade_length < 15:
+                if self.last_trade_length>30:
+                    reward = self.close_profit / 3 + self.last_trade_length / 20 + 2
+                else:
                     reward = self.close_profit / 10
+            elif self.close_profit > 40:
+                if self.last_trade_length>30:
+                    reward = self.close_profit / 4 + self.last_trade_length / 30 + 1
+                else:
+                    reward = self.close_profit / 10
+            elif self.close_profit >= 10:
                 if self.last_trade_length > 15:
-                    reward = self.close_profit / 7
-                self.close_profit = 0
-            elif self.close_profit > 2:
-                reward = self.close_profit / 20
-                self.close_profit = 0
+                    reward = self.close_profit / 8
+                else:
+                    reward = self.close_profit / 20
+            elif self.close_profit > 4:
+                if self.last_trade_length>15:
+                    reward = self.close_profit / 100
+                else:
+                    reward = self.close_profit / 200
+            elif self.close_profit > 0:
+                reward = self.close_profit - 4
             else:
-                reward = self.close_profit - 5
-                self.close_profit = 0
+                reward = self.close_profit - 20
+            self.close_profit = 0
 
         return obs, reward, done, info
 
