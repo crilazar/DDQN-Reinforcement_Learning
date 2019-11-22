@@ -183,7 +183,7 @@ if __name__ == '__main__':
     env = ForexTrading()
     write_to_log('---------------------------------------------')
     write_to_log('Environment loaded successfuly')
-    ddqn_agent = DDQNAgent(alpha=0.0005, gamma=0.99, n_actions=4, epsilon_dec=0.99996, epsilon=1.0, batch_size=64, input_dims=41)
+    ddqn_agent = DDQNAgent(alpha=0.0005, gamma=0.99, n_actions=4, epsilon_dec=0.999983, epsilon=1.0, batch_size=64, input_dims=41)
     n_games = 1000    
     ddqn_scores = []
     eps_history = []
