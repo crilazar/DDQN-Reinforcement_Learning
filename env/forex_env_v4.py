@@ -186,7 +186,7 @@ class Forex1(gym.Env):
             self.notprofitable_sell, self.trade_length, self.last_trade_length, self.pips_won, self.pips_lost, int(np.mean(self.avg_length)), np.min(self.avg_length), np.max(self.avg_length)]
 
         if self.profit > -10 and self.trade_length > 25:
-            reward = self.trade_length / 2000 + self.profit / 200
+            reward = self.trade_length / 2000 + self.profit / 1000
 
         if self.profit < - 20:
             reward -= self.profit / 200
@@ -211,7 +211,8 @@ class Forex1(gym.Env):
             else:
                 reward = self.close_profit - 20
             if self.last_trade_length <25 and self.close_profit < 30:
-                reward -= 5/self.last_trade_length
+                if self.last_trade_length != 0:
+                    reward -= 5/self.last_trade_length
             self.close_profit = 0
 
         return obs, reward, done, info
