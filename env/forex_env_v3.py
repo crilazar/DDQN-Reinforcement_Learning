@@ -184,27 +184,31 @@ class Forex1(gym.Env):
         info = [float(self.account_balance), self.profitable_buy, self.notprofitable_buy, self.profitable_sell,\
             self.notprofitable_sell, self.trade_length, self.last_trade_length, self.pips_won, self.pips_lost, int(np.mean(self.avg_length)), np.min(self.avg_length), np.max(self.avg_length)]
 
-        if self.profit > -10 and self.last_trade_length > 15:
-            reward = self.last_trade_length / 1000
+        #if self.profit > -10 and self.trade_length > 25:
+        #    reward = self.trade_length / 2000 + self.profit / 1000
 
         # bonus for closing a positive trade
         if self.active_trade == 0:
             if self.close_profit > 100:
-                reward = self.close_profit
+                reward = self.close_profit + 10 + self.last_trade_length / 2
             elif self.close_profit > 80:
-                reward = self.close_profit / 2
+                reward = self.close_profit + self.last_trade_length / 3
             elif self.close_profit > 60:
-                reward = self.close_profit / 3
+                reward = self.close_profit / 2 + self.last_trade_length / 5
             elif self.close_profit > 30:
-                reward = self.close_profit / 4
-            elif self.close_profit > 4:
-                if self.last_trade_length < 15:
-                    reward = self.close_profit / 20
-                if self.last_trade_length > 15:
-                    reward = self.close_profit / 8
+                reward = self.close_profit / 5 + self.last_trade_length / 10
+            elif self.close_profit > 10:
+                if self.last_trade_length < 25:
+                    reward = self.close_profit / 50
+                if self.last_trade_length > 25:
+                    reward = self.close_profit / 10
             else:
-                reward = self.close_profit - 5
+                reward = self.close_profit - 20
+            if self.last_trade_length <25 and self.close_profit < 30:
+                if self.last_trade_length != 0:
+                    reward -= 10/self.last_trade_length
             self.close_profit = 0
+
         return obs, reward, done, info
 
     def reset(self):

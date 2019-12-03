@@ -212,7 +212,7 @@ class Forex1(gym.Env):
                 reward = self.close_profit - 20
             if self.last_trade_length <25 and self.close_profit < 30:
                 if self.last_trade_length != 0:
-                    reward -= 5/self.last_trade_length
+                    reward -= 10/self.last_trade_length
             self.close_profit = 0
 
         return obs, reward, done, info
