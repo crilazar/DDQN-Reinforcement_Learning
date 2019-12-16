@@ -111,6 +111,7 @@ class Forex1(gym.Env):
             if self.close_profit > 4:
                 self.profitable_buy += 1
                 self.pips_won += self.close_profit
+                self.avg_length.append(self.trade_length)
             else:
                 self.notprofitable_buy += 1
                 self.pips_lost -= self.close_profit
@@ -118,11 +119,11 @@ class Forex1(gym.Env):
             if self.close_profit > 4:
                 self.profitable_sell += 1
                 self.pips_won += self.close_profit
+                self.avg_length.append(self.trade_length)
             else:
                 self.notprofitable_sell += 1
                 self.pips_lost -= self.close_profit
 
-        self.avg_length.append(self.trade_length)
         self.profit = 0
         self.active_trade = 0
         self.trade_open_price = 0
@@ -185,11 +186,16 @@ class Forex1(gym.Env):
         info = [float(self.account_balance), self.profitable_buy, self.notprofitable_buy, self.profitable_sell,\
             self.notprofitable_sell, self.trade_length, self.last_trade_length, self.pips_won, self.pips_lost, int(np.mean(self.avg_length)), np.min(self.avg_length), np.max(self.avg_length)]
 
-        if self.profit > 0 and self.trade_length > 20:
-            reward = self.trade_length / 2000 + self.profit / 50
+        if self.trade_length > 0:
+            if self.profit > 0:
+                reward = self.trade_length / 1000 + self.profit / 100
+            else:
+                reward = self.trade_length / 1000
+            if self.profit < -10 and self.trade_length > 50:
+                reward += self.profit / 150
 
         # bonus for closing a positive trade
-        if self.active_trade == 0:
+        if self.active_trade == 0 and self.close_profit != 0:
             if self.close_profit > 100:
                 reward = self.close_profit + 10 + self.last_trade_length / 2
             elif self.close_profit > 80:
