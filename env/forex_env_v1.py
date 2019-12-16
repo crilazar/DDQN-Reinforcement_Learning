@@ -188,9 +188,9 @@ class Forex1(gym.Env):
 
         if self.trade_length > 0:
             if self.profit > 0:
-                reward = self.trade_length / 1000 + self.profit / 100
+                reward = self.trade_length / 500 + self.profit / 100
             else:
-                reward = self.trade_length / 1000
+                reward = self.trade_length / 500
             if self.profit < -10 and self.trade_length > 50:
                 reward += self.profit / 150
 
@@ -198,13 +198,9 @@ class Forex1(gym.Env):
         if self.active_trade == 0 and self.close_profit != 0:
             if self.close_profit > 100:
                 reward = self.close_profit + 10 + self.last_trade_length / 2
-            elif self.close_profit > 80:
-                reward = self.close_profit + self.last_trade_length / 3
-            elif self.close_profit > 60:
+            elif self.close_profit > 50:
                 reward = self.close_profit / 2 + self.last_trade_length / 5
-            elif self.close_profit > 30:
-                reward = self.close_profit / 5 + self.last_trade_length / 10
-            elif self.close_profit > 15:
+            elif self.close_profit > 25:
                     reward = self.close_profit / 50
             elif self.close_profit > 5:
                 reward = 0
